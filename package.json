@@ -1,12 +1,12 @@
 {
-  "homepage": "https://VictorKevz.github.io/REST-country-quiz-app/",
+  "homepage": "https://VictorKevz.github.io/rest-api-country-quiz/",
   "name": "country-quiz-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    " predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    " predeploy": "npm run build", 
+    "deploy": "gh-pages -d dist", 
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",

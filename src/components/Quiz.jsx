@@ -3,6 +3,7 @@ import "../css/quiz.css";
 
 function Quiz({ quizData, shuffleArray }) {
   const [answeredQuestions, setAnsweredQuestions] = useState({});
+  const [questionOptions, setQuestionOptions] = useState({}); // Store options for each question
   const [index, setIndex] = useState(0);
   const correctAnswer = quizData[index].name.official;
 
@@ -11,7 +12,7 @@ function Quiz({ quizData, shuffleArray }) {
   };
 
   const updateAnswers = (userOption) => {
-    if (answeredQuestions[index]) return; // If already answered, do nothing
+    if (answeredQuestions[index]) return; // Do nothing if already answered
 
     setAnsweredQuestions((prevAnswers) => ({
       ...prevAnswers,
@@ -24,22 +25,34 @@ function Quiz({ quizData, shuffleArray }) {
   };
 
   const getOptions = () => {
+    // Check if options for this question already exist in state
+    if (questionOptions[index]) {
+      return questionOptions[index];
+    }
+
+    // Generate new options if not already stored
     const shuffledRawData = shuffleArray(quizData);
     const wrongOptionsArray = shuffledRawData
       .filter((_, i) => index !== i)
       .slice(0, 3)
       .map((country) => country.name.official);
 
-    const allOptionsArray = [correctAnswer, ...wrongOptionsArray];
-    return shuffleArray(allOptionsArray);
+      //Shuffle again the options before saving to state!
+    const allOptionsArray = shuffleArray([correctAnswer, ...wrongOptionsArray]);
+
+    // Save the generated options for this question
+    setQuestionOptions((prevOptions) => ({
+      ...prevOptions,
+      [index]: allOptionsArray,
+    }));
+
+    return allOptionsArray;
   };
 
-  const options = getOptions();
+  const options = getOptions(); // Get options for the current question
 
-  // Set default empty object if no answer yet
+  // Get current answered question or set default
   const currentAnsweredQuestion = answeredQuestions[index] || {};
-
-  // Destructure properties from the currentAnsweredQuestion object
   const { isAnswered, selectedOption, isCorrect } = currentAnsweredQuestion;
 
   return (
@@ -70,7 +83,6 @@ function Quiz({ quizData, shuffleArray }) {
 
         <ul className="options-wrapper">
           {options.map((option, i) => {
-            // Determine button classes
             const isSelected = selectedOption === option;
             const buttonClass = isSelected
               ? isCorrect
