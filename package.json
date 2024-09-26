@@ -1,6 +1,6 @@
 {
-  "homepage": "https://VictorKevz.github.io/rest-api-country-quiz/",
-  "name": "rest-api-country-quiz",
+  "homepage": "https://VictorKevz.github.io/country-quiz-app/",
+  "name": "country-quiz-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
